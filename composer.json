@@ -1,0 +1,36 @@
+{
+    "name": "devengine/request-query-builder",
+    "description": "Fluent query builder from requests",
+    "require": {
+        "php": "^8.0",
+        "illuminate/database": "^8.22.2",
+        "illuminate/http": "^8.22.2",
+        "illuminate/support": "^8.22.2"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "phpunit/phpunit": "^9.5",
+        "mockery/mockery": "^1.4",
+        "orchestra/testbench": "^6.19"
+    },
+    "autoload": {
+        "psr-4": {
+            "Devengine\\RequestQueryBuilder\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Devengine\\RequestQueryBuilder\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "devengine",
+            "email": "cloud@devengine.ru"
+        }
+    ]
+}

@@ -14,6 +14,7 @@ class AddQuickSearchClause implements RequestQueryBuilderPipe
     {
         $request = $parameters->getRequest();
         $builder = $parameters->getBuilder();
+        $searchQueryProcessor = $parameters->getSearchQueryProcessor();
         $searchQuery = $request->input('search');
         $quickSearchFields = $parameters->getQuickSearchFields();
 
@@ -25,12 +26,10 @@ class AddQuickSearchClause implements RequestQueryBuilderPipe
             return;
         }
 
-        $searchQuery = addcslashes($searchQuery, '%_\\');
-
-        $builder->where(function (Builder $builder) use ($quickSearchFields, $searchQuery) {
+        $builder->where(function (Builder $builder) use ($searchQueryProcessor, $quickSearchFields, $searchQuery) {
 
             foreach ($quickSearchFields as $fieldName) {
-                $builder->orWhere($fieldName, 'like', "%$searchQuery%");
+                $builder->orWhere($fieldName, 'like', $searchQueryProcessor($searchQuery, $fieldName));
             }
 
         });

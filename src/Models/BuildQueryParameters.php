@@ -2,15 +2,13 @@
 
 namespace Devengine\RequestQueryBuilder\Models;
 
+use Devengine\RequestQueryBuilder\Contracts\SearchQueryProcessor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use JetBrains\PhpStorm\Pure;
 
 final class BuildQueryParameters
 {
-    protected Builder $builder;
-
-    protected Request $request;
-
     protected array $allowedOrderFields = [];
 
     protected array $allowedOrderFieldDictionary = [];
@@ -25,15 +23,12 @@ final class BuildQueryParameters
 
     protected string $selectFieldsParameterName = 'fields';
 
-    /**
-     * BuildQueryParameters constructor.
-     * @param Builder $builder
-     * @param Request $request
-     */
-    public function __construct(Builder $builder, Request $request)
+    protected SearchQueryProcessor $searchQueryProcessor;
+
+    #[Pure]
+    public function __construct(protected Builder $builder, protected Request $request)
     {
-        $this->builder = $builder;
-        $this->request = $request;
+        $this->searchQueryProcessor = new DefaultSearchQueryProcessor();
     }
 
     public function getBuilder(): Builder
@@ -77,41 +72,26 @@ final class BuildQueryParameters
         $this->defaultOrder = $parameters;
     }
 
-    /**
-     * @return array
-     */
     public function getAllowedSelectFields(): array
     {
         return $this->allowedSelectFields;
     }
 
-    /**
-     * @param array $allowedSelectFields
-     */
     public function setAllowedSelectFields(array $allowedSelectFields): void
     {
         $this->allowedSelectFields = $allowedSelectFields;
     }
 
-    /**
-     * @return string
-     */
     public function getSelectFieldsParameterName(): string
     {
         return $this->selectFieldsParameterName;
     }
 
-    /**
-     * @return array
-     */
     public function getAllowedOrderFieldDictionary(): array
     {
         return $this->allowedOrderFieldDictionary;
     }
 
-    /**
-     * @param array $allowedOrderFieldDictionary
-     */
     public function setOrderFieldDictionary(array $allowedOrderFieldDictionary): void
     {
         $this->allowedOrderFieldDictionary = $allowedOrderFieldDictionary;
@@ -125,5 +105,15 @@ final class BuildQueryParameters
     public function getQuickSearchFields(): array
     {
         return $this->quickSearchFields;
+    }
+
+    public function getSearchQueryProcessor(): SearchQueryProcessor
+    {
+        return $this->searchQueryProcessor;
+    }
+
+    public function setSearchQueryProcessor(SearchQueryProcessor $searchQueryProcessor): void
+    {
+        $this->searchQueryProcessor = $searchQueryProcessor;
     }
 }

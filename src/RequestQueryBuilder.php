@@ -44,6 +44,14 @@ class RequestQueryBuilder
         });
     }
 
+    public function qualifyOrderFields(string ...$fields): static
+    {
+        return tap($this, function () use ($fields) {
+           $this->builderParameters->setOrderFieldDictionary($fields);
+        });
+    }
+
+    /** @deprecated */
     public function translateOrderFields(array $dictionary): static
     {
         return tap($this, function () use ($dictionary) {

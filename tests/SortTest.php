@@ -48,9 +48,9 @@ class SortTest extends TestCase
                 'created_at',
                 'updated_at'
             ])
-            ->translateOrderFields([
-                'created_at' => 'test_models_join.created_at',
-            ])
+            ->qualifyOrderFields(
+                created_at: 'test_models_join.created_at',
+            )
             ->process();
 
         $this->assertCount(1, $builder->getQuery()->orders);

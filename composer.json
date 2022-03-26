@@ -3,9 +3,9 @@
     "description": "Fluent query builder from requests",
     "require": {
         "php": "^8.0",
-        "illuminate/database": "^8.22.2",
-        "illuminate/http": "^8.22.2",
-        "illuminate/support": "^8.22.2"
+        "illuminate/database": "^8.22|^9.0",
+        "illuminate/http": "^8.22|^9.0",
+        "illuminate/support": "^8.22|^9.0"
     },
     "require-dev": {
         "ext-json": "*",

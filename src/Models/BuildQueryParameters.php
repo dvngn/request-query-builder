@@ -97,14 +97,14 @@ final class BuildQueryParameters
         $this->allowedOrderFieldDictionary = $allowedOrderFieldDictionary;
     }
 
-    public function setQuickSearchFields(array $fields): void
-    {
-        $this->quickSearchFields = $fields;
-    }
-
     public function getQuickSearchFields(): array
     {
         return $this->quickSearchFields;
+    }
+
+    public function setQuickSearchFields(array $fields): void
+    {
+        $this->quickSearchFields = $fields;
     }
 
     public function getSearchQueryProcessor(): SearchQueryProcessor

@@ -33,14 +33,14 @@ class RequestQueryBuilder
 
     public function allowOrderFields(string ...$fields): static
     {
-        return tap($this, function () use ($fields) {
+        return tap($this, function () use ($fields): void {
             $this->buildParameters->setAllowedOrderFields($fields);
         });
     }
 
     public function qualifyOrderFields(string ...$fields): static
     {
-        return tap($this, function () use ($fields) {
+        return tap($this, function () use ($fields): void {
             $this->buildParameters->setOrderFieldDictionary($fields);
         });
     }
@@ -48,14 +48,14 @@ class RequestQueryBuilder
     /** @deprecated use {@link qualifyOrderFields()} instead */
     public function translateOrderFields(array $dictionary): static
     {
-        return tap($this, function () use ($dictionary) {
+        return tap($this, function () use ($dictionary): void {
             $this->buildParameters->setOrderFieldDictionary($dictionary);
         });
     }
 
     public function allowSelectFields(string ...$fields): static
     {
-        return tap($this, function () use ($fields) {
+        return tap($this, function () use ($fields): void {
             $this->buildParameters->setAllowedSelectFields($fields);
         });
     }
@@ -82,8 +82,24 @@ class RequestQueryBuilder
 
     public function addCustomBuildQueryPipe(RequestQueryBuilderPipe ...$pipe): static
     {
-        return tap($this, function () use ($pipe) {
+        return tap($this, function () use ($pipe): void {
             $this->customBuildQueryPipes = [...$this->customBuildQueryPipes, ...$pipe];
+        });
+    }
+
+    public function processSearchQueryWith(SearchQueryProcessor $processor): static
+    {
+        return tap($this, function () use ($processor): void {
+            $this->buildParameters->setSearchQueryProcessor($processor);
+        });
+    }
+
+    public function process(): Builder
+    {
+        return tap($this->buildParameters->getBuilder(), function () {
+            foreach (array_merge($this->getDefaultBuildQueryPipeline(), $this->customBuildQueryPipes) as $pipe) {
+                $pipe($this->buildParameters);
+            }
         });
     }
 
@@ -95,24 +111,6 @@ class RequestQueryBuilder
             new SelectColumns,
             new AddQuickSearchClause,
         ];
-    }
-
-    public function processSearchQueryWith(SearchQueryProcessor $processor): static
-    {
-        return tap($this, function () use ($processor) {
-            $this->buildParameters->setSearchQueryProcessor($processor);
-        });
-    }
-
-    public function process(): Builder
-    {
-        return tap($this->buildParameters->getBuilder(), function () {
-
-            foreach (array_merge($this->getDefaultBuildQueryPipeline(), $this->customBuildQueryPipes) as $pipe) {
-                $pipe($this->buildParameters);
-            }
-
-        });
     }
 
     /**

@@ -9,7 +9,7 @@ interface RequestQueryBuilderPipe
     /**
      * Process the payload.
      *
-     * @param BuildQueryParameters $parameters
+     * @param  BuildQueryParameters  $parameters
      */
     public function __invoke(BuildQueryParameters $parameters): void;
 }

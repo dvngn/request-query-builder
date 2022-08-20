@@ -4,9 +4,10 @@ namespace Devengine\RequestQueryBuilder\Models;
 
 final class OrderParameters
 {
-    public function __construct(protected string $columnName,
-                                protected string $orderDirection)
-    {
+    public function __construct(
+        protected string $columnName,
+        protected string $orderDirection
+    ) {
     }
 
     public function getColumnName(): string

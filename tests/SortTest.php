@@ -21,7 +21,7 @@ class SortTest extends TestCase
         )
             ->allowOrderFields(...[
                 'created_at',
-                'updated_at'
+                'updated_at',
             ])
             ->process();
 
@@ -46,7 +46,7 @@ class SortTest extends TestCase
         )
             ->allowOrderFields(...[
                 'created_at',
-                'updated_at'
+                'updated_at',
             ])
             ->qualifyOrderFields(
                 created_at: 'test_models_join.created_at',

@@ -24,7 +24,7 @@ class SelectTest extends TestCase
         )
             ->allowSelectFields(...[
                 'id',
-                'created_at'
+                'created_at',
             ])
             ->process();
 

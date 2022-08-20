@@ -1,6 +1,6 @@
 <?php
 
-namespace Devengine\Exceptions;
+namespace Devengine\RequestQueryBuilder\Exceptions;
 
 use JetBrains\PhpStorm\Pure;
 use RuntimeException;

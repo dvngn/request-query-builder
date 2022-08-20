@@ -66,7 +66,6 @@ final class BuildQueryParameters
         return $this->defaultOrder;
     }
 
-
     public function setDefaultOrder(?OrderParameters $parameters): void
     {
         $this->defaultOrder = $parameters;

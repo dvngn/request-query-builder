@@ -9,11 +9,14 @@ class SelectColumns implements RequestQueryBuilderPipe
 {
     public function __invoke(BuildQueryParameters $parameters): void
     {
+        [$request, $builder] = [$parameters->getRequest(), $parameters->getBuilder()];
+
         $allowedSelectFields = $parameters->getAllowedSelectFields();
+
         $selectFieldParameterName = $parameters->getSelectFieldsParameterName();
-        $request = $parameters->getRequest();
-        $builder = $parameters->getBuilder();
+
         $selectFieldsFromRequest = $this->parseRequestValue($request->input($selectFieldParameterName));
+
         $selectFields = array_values(array_intersect($allowedSelectFields, $selectFieldsFromRequest));
 
         if (empty($selectFields)) {

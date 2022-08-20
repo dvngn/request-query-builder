@@ -2,8 +2,8 @@
 
 namespace Devengine\RequestQueryBuilder;
 
-use Devengine\Exceptions\FieldOrderException;
 use Devengine\RequestQueryBuilder\Contracts\{RequestQueryBuilderPipe, SearchQueryProcessor};
+use Devengine\RequestQueryBuilder\Exceptions\FieldOrderException;
 use Devengine\RequestQueryBuilder\Models\{BuildQueryParameters, OrderParameters};
 use Devengine\RequestQueryBuilder\Pipeline\{AddOrderBy, AddQuickSearchClause, SelectColumns};
 use Illuminate\Database\Eloquent\Builder;

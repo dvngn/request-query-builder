@@ -11,27 +11,22 @@ class AddOrderBy implements RequestQueryBuilderPipe
 
     public function __invoke(BuildQueryParameters $parameters): void
     {
-        $allowedOrderFields = $parameters->getAllowedOrderFields();
-        $allowedOrderFieldDictionary = $parameters->getAllowedOrderFieldDictionary();
-        $prefix = $parameters->getSortParameterPrefix();
-        $request = $parameters->getRequest();
-        $builder = $parameters->getBuilder();
-        $defaultOrder = $parameters->getDefaultOrder();
+        [$request, $builder] = [$parameters->getRequest(), $parameters->getBuilder()];
 
         $appliedOrder = [];
 
-        foreach ($allowedOrderFields as $orderFieldName) {
-            $qualifiedRequestParameter = $prefix.$orderFieldName;
+        foreach ($parameters->getAllowedOrderFields() as $orderFieldName) {
+            $qualifiedRequestParameter = $parameters->getSortParameterPrefix().$orderFieldName;
 
-            if (false === $request->has($qualifiedRequestParameter)) {
+            if ($request->has($qualifiedRequestParameter) === false) {
                 continue;
             }
 
-            $translatedFieldName = $allowedOrderFieldDictionary[$orderFieldName] ?? $orderFieldName;
+            $translatedFieldName = $parameters->getAllowedOrderFieldDictionary()[$orderFieldName] ?? $orderFieldName;
 
             $requestParameterValue = $request->input($qualifiedRequestParameter);
 
-            if (false === $this->validateRequestValue($requestParameterValue)) {
+            if ($this->validateRequestValue($requestParameterValue) === false) {
                 continue;
             }
 
@@ -40,8 +35,11 @@ class AddOrderBy implements RequestQueryBuilderPipe
             $appliedOrder[$orderFieldName] = $requestParameterValue;
         }
 
-        if (empty($appliedOrder) && !is_null($defaultOrder)) {
-            $builder->orderBy($defaultOrder->getColumnName(), $defaultOrder->getOrderDirection());
+        if (empty($appliedOrder) && !is_null($parameters->getDefaultOrder())) {
+            $builder->orderBy(
+                $parameters->getDefaultOrder()->getColumnName(),
+                $parameters->getDefaultOrder()->getOrderDirection()
+            );
         }
     }
 
